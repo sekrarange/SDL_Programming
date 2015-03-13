@@ -57,12 +57,13 @@ set( PROJECT_SRC
 
 find_package(TinyXML2 REQUIRED)
 find_package(Boost COMPONENTS regex REQUIRED)
+find_package(SDL2 REQUIRED)
 
 # --------------------
 # Set libraries requires for this project.
-set( LIBS ${TINYXML2_LIBRARY} ${Boost_LIBRARIES})
+set( LIBS ${TINYXML2_LIBRARY} ${Boost_LIBRARIES} ${SDL2_LIBRARY})
 
-include_directories(${TINYXML2_INCLUDE_DIR} ${Boost_INCLUDE_DIR})
+include_directories(${TINYXML2_INCLUDE_DIR} ${Boost_INCLUDE_DIR} ${SDL2_INCLUDE_DIR})
 
 # --------------------
 # Resource copying target

@@ -3,14 +3,19 @@
 #include "Game.h"
 #include <iostream>
 #include <string>
+#include <SDL.h>
 ////////////////////////////////////////////////////////////////////////////////
 using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
-int main()
+int main(int argc, char **argv)
 {
-  Game & g = *Game::GetInstance();
-  g.Play();
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+		throw runtime_error(SDL_GetError());
 
-  return 0;
+	Game & g = *Game::GetInstance();
+	g.Play();
+
+	SDL_Quit();
+	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////
