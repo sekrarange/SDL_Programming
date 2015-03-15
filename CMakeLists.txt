@@ -24,7 +24,7 @@ if(WIN32)
   # its version does not match exactly the version of visual studio 
   # you are generating build files for.
   #
-  set( BOOST_LIBRARYDIR "C:/boost/lib64-msvc-12.0")
+  # set( BOOST_LIBRARYDIR "C:/boost/lib64-msvc-12.0")
 endif()
 
 set( PROJECT_SRC 
