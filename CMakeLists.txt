@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(quickescape CXX)
+project(quickescape)
 # Use also project's custom cmake modules.
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 SET(CMAKE_BUILD_TYPE Debug)
@@ -53,6 +53,8 @@ set( PROJECT_SRC
   src/Logger.cpp
   src/Commands.cpp
   src/Commands.h
+  src/SDLApp.h
+  src/SDLApp.cpp
 )
 
 find_package(TinyXML2 REQUIRED)

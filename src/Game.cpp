@@ -61,43 +61,55 @@ Game::~Game()
 ////////////////////////////////////////////////////////////////////////////////
 void Game::Play()
 {
-  
-  LoadMap("res/dungeon0.xml");
-  CommandUtils::Load("res/commands.xml");
-  for( auto a : m_Rooms )
-  {
-    if ( a.second == NULL )  
-    {
-      ostringstream ss; 
-      ss << "Whoops, " << a.first << " is NULL";
-      throw NullKeyException(ss.str());
-    }
-  }
+	string title = "QuickEscape";
+	Init(title, 640, 400);
+	SDL_Surface *surface = SDL_LoadBMP("./res/splash.bmp");
+	if (surface == NULL)
+		throw runtime_error(SDL_GetError());
 
-  cout << m_Story << "\n";
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer_, surface);
+	SDL_FreeSurface(surface);
+	surface = NULL;
+	SDL_RenderClear(renderer_);
+	SDL_RenderCopy(renderer_, texture, NULL, NULL);
+	SDL_RenderPresent(renderer_);
 
-  while ( GetProperty("running") ) 
-  {
-    Room & room = *GetCurrentRoom();
-    bool visited;
-    
-    if ( (room.HasProperty("visited") == false) || 
-	 ((visited = room.GetProperty("visited")) == false) )
-    {    
-      room.SetProperty("visited", true);
-    }  
-    
-    cout << "> ";
+	LoadMap("res/dungeon0.xml");
+	CommandUtils::Load("res/commands.xml");
+	for (auto a : m_Rooms)
+	{
+		if (a.second == NULL)
+		{
+			ostringstream ss;
+			ss << "Whoops, " << a.first << " is NULL";
+			throw NullKeyException(ss.str());
+		}
+	}
 
-    string tmp;
-    getline(cin,tmp);
-    
-    Command *pCmd = CommandUtils::Parse(tmp);
-    pCmd->Execute(*this);
-    delete pCmd;
-    
-  }  
-  Save("res/dungeon0.xml");
+	cout << m_Story << "\n";
+
+	while (GetProperty("running"))
+	{
+		Room & room = *GetCurrentRoom();
+		bool visited;
+
+		if ((room.HasProperty("visited") == false) ||
+			((visited = room.GetProperty("visited")) == false))
+		{
+			room.SetProperty("visited", true);
+		}
+
+		cout << "> ";
+
+		string tmp;
+		getline(cin, tmp);
+
+		Command *pCmd = CommandUtils::Parse(tmp);
+		pCmd->Execute(*this);
+		delete pCmd;
+
+	}
+	Save("res/dungeon0.xml");
 
 }
 ////////////////////////////////////////////////////////////////////////////////

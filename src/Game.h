@@ -13,13 +13,15 @@
 #include <Player.h>
 #include <PropertyHolder.h>
 #include <Commands.h>
+#include <SDLApp.h>
 ////////////////////////////////////////////////////////////////////////////////
 class IRenderer;
 class Room;
 typedef std::map<std::string, Room *> Rooms;
 ////////////////////////////////////////////////////////////////////////////////
 class Game : public PropertyHolder,
-	     public CommandHandler
+	     public CommandHandler,
+		 public SDLApp
 {
 private:
   Rooms       m_Rooms;
