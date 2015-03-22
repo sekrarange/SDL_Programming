@@ -14,10 +14,10 @@ public:
 	SDLApp();
 	virtual ~SDLApp();
 
-	void Init(std::string &title, int width, int height,
+	void Init(const std::string &title, int width, int height,
 		int flags = SDL_WINDOW_SHOWN);
 	void Render();
-	Command * HandleInput();
+	void HandleInput();
 };
 
 

@@ -1,4 +1,5 @@
 #include <SDLApp.h>
+#include <Game.h>
 using namespace std;
 
 SDLApp::SDLApp()
@@ -15,7 +16,7 @@ SDLApp::~SDLApp()
 	SDL_Quit();
 }
 
-void SDLApp::Init(string &title, int width, int height,
+void SDLApp::Init(const string &title, int width, int height,
 	int flags)
 {
 	window_ = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
@@ -29,7 +30,21 @@ void SDLApp::Render()
 {
 
 }
-Command * SDLApp::HandleInput()
+void SDLApp::HandleInput()
 {
-	return NULL;
+	SDL_Event ev;
+	while (SDL_PollEvent(&ev))
+	{
+		switch (ev.type)
+		{
+		case SDL_QUIT:
+		case SDL_KEYDOWN:
+			Command *pCmd = CommandUtils::Parse(ev);
+			pCmd->Execute(*Game::GetInstance());
+			delete pCmd;
+			break;
+		}
+	}
+	
+
 }

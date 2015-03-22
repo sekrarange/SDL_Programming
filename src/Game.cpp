@@ -60,9 +60,8 @@ Game::~Game()
 }
 ////////////////////////////////////////////////////////////////////////////////
 void Game::Play()
-{
-	string title = "QuickEscape";
-	Init(title, 640, 400);
+{	
+	Init("QuickEscape", 640, 400);
 	SDL_Surface *surface = SDL_LoadBMP("./res/splash.bmp");
 	if (surface == NULL)
 		throw runtime_error(SDL_GetError());
@@ -99,15 +98,8 @@ void Game::Play()
 			room.SetProperty("visited", true);
 		}
 
-		cout << "> ";
-
-		string tmp;
-		getline(cin, tmp);
-
-		Command *pCmd = CommandUtils::Parse(tmp);
-		pCmd->Execute(*this);
-		delete pCmd;
-
+		HandleInput();
+		
 	}
 	Save("res/dungeon0.xml");
 

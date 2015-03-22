@@ -147,91 +147,29 @@ CommandUtils::Parse( const std::string & input )
 Command *
 CommandUtils::Parse(const SDL_Event & event)
 {
-	/*
-	// Convert line to lowercase
-	string tmp = input;
-	transform(tmp.begin(), tmp.end(), tmp.begin(), [](char c){ return tolower(c); });
-	stringstream ss;
-	ss << tmp;
-	ss >> tmp;
-	Room *current = g_Game.GetCurrentRoom();
-	if (Match("quit", tmp))
+	switch (event.type)
 	{
+	case SDL_QUIT:
 		return new QuitCommand();
-	}
-	else if (Match("move", tmp))
-	{
-		string dir;
-		ss >> dir;
+		break;
+	case SDL_KEYDOWN:
+		if (event.key.keysym.sym == SDLK_ESCAPE)
+			return new QuitCommand();
 
-		Direction d = kNumDirs;
-		if (dir == "south") d = South;
-		else if (dir == "north") d = North;
-		else if (dir == "east")  d = East;
-		else if (dir == "west")  d = West;
-		// Takes care of kNumDirs value as well
-		MoveCommand *pCmd = new MoveCommand(d, current, current->GetNextRoom(d));
-		return pCmd;
-	}
-	else if (tmp == "mn"){ return new MoveCommand(North, current, current->GetNextRoom(North)); }
-	else if (tmp == "me"){ return new MoveCommand(East, current, current->GetNextRoom(East)); }
-	else if (tmp == "ms"){ return new MoveCommand(South, current, current->GetNextRoom(South)); }
-	else if (tmp == "mw"){ return new MoveCommand(West, current, current->GetNextRoom(West)); }
+		Room *current = g_Game.GetCurrentRoom();
+		if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
+			return new MoveCommand(North, current, current->GetNextRoom(North));
 
-	else if (Match("take", tmp))
-	{
-		// take entire description in the end.
-		string what = Game::Trim(ss.str().substr(tmp.size()));
-		return new TakeCommand(what);
-	}
-	else if (Match("drop", tmp))
-	{
-		// take entire description in the end.
-		string what = Game::Trim(ss.str().substr(tmp.size()));
-		return new DropCommand(what);
-	}
-	else if (Match("inventory", tmp))
-	{
-		return new InventoryCommand();
-	}
-	else if (Match("look", tmp))
-	{
-		return new LookCommand();
-	}
-	else if (Match("examine", tmp))
-	{
-		ExamineCommand * s = new ExamineCommand();
-		if (ss.str().size() > tmp.size())
-		{
-			string what = ss.str().substr(tmp.size());
-			s->m_strTarget = Game::Trim(what);
-		}
-		// make everything lower-case
-		for (auto & c : s->m_strTarget) c = tolower(c);
-		return s;
-	}
-	else if (Match("use", tmp))
-	{
-		UseCommand *pUse = NULL;
-		string rest = ss.str().substr(tmp.size());
-		size_t pos = rest.find(" to ");
+		if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
+			return new MoveCommand(South, current, current->GetNextRoom(South));
 
-		if (pos != string::npos)
-		{
-			string what = rest.substr(0, pos);
-			string to = rest.substr(pos + what.size());
-			pUse = new UseCommand(Game::Trim(what), Game::Trim(to));
-		}
-		else
-		{
-			pUse = new UseCommand(Game::Trim(rest), "");
-		}
-		return pUse;
+		if (event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_a)
+			return new MoveCommand(West, current, current->GetNextRoom(West));
+
+		if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_d)
+			return new MoveCommand(East, current, current->GetNextRoom(East));
+		break;
 	}
-	else if (!tmp.empty())
-	{
-		return new UnknownCommand();
-	}*/
 	return new NullCommand();
 }
 ////////////////////////////////////////////////////////////////////////////////
