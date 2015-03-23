@@ -18,6 +18,7 @@ SDLApp::SDLApp()
 	renderer_ = NULL;
 	cover_ = NULL;
 	pages_ = NULL;
+	playerTexture_ = NULL;
 }
 SDLApp::~SDLApp()
 {
@@ -35,16 +36,35 @@ void SDLApp::Init(const string &title, int width, int height,
 		throw runtime_error(SDL_GetError());
 
 	renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_SOFTWARE);
+	if (renderer_ == NULL)
+		throw runtime_error(SDL_GetError());
 	SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 0);
 
 	cover_ = IMG_LoadTexture(renderer_, "./res/cover.png");
+	if (cover_ == NULL) throw runtime_error(SDL_GetError());
 	pages_ = IMG_LoadTexture(renderer_, "./res/pages.png");
+	if (pages_ == NULL) throw runtime_error(SDL_GetError());
+	playerTexture_ = IMG_LoadTexture(renderer_, "./res/Player0.png");
+	if (playerTexture_ == NULL) throw runtime_error(SDL_GetError());
+
+	playerSrcRect.x = 1;
+	playerSrcRect.y = 1;
+	playerSrcRect.w = 14;
+	playerSrcRect.h = 16;
+
+	int windowSizeW, windowSizeH;
+	SDL_GetWindowSize(window_, &windowSizeW, &windowSizeH);
+	playerDstRect.x = windowSizeW / 2 - playerSrcRect.w / 2;
+	playerDstRect.y = windowSizeH / 2 - playerSrcRect.h / 2;
+	playerDstRect.w = playerSrcRect.w * 2;
+	playerDstRect.h = playerSrcRect.h * 2;
 }
 void SDLApp::Render()
 {
 	SDL_RenderClear(renderer_);
 	SDL_RenderCopy(renderer_, cover_, NULL, NULL);
 	SDL_RenderCopy(renderer_, pages_, NULL, NULL);
+	SDL_RenderCopy(renderer_, playerTexture_, &playerSrcRect, &playerDstRect);
 	SDL_RenderPresent(renderer_);
 }
 

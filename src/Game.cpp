@@ -61,7 +61,7 @@ Game::~Game()
 ////////////////////////////////////////////////////////////////////////////////
 void Game::Play()
 {	
-	Init("QuickEscape", 640, 400);
+	Init("QuickEscape", 1000, 700);
 
 	SDL_Surface *surface = SDL_LoadBMP("./res/splash.bmp");
 	if (surface == NULL)
@@ -89,7 +89,6 @@ void Game::Play()
 		}
 	}
 
-	SDL_SetWindowSize(window_, 1000, 700);
 	cout << m_Story << "\n";
 
 	while (GetProperty("running"))
@@ -425,6 +424,22 @@ Game::Execute(MoveCommand & cmd)
       GetCurrentRoom()->Execute(cmd);
       SetCurrentRoom(pNext);
       GetCurrentRoom()->Execute(cmd);
+	  // Move player character
+	  switch (cmd.m_Dir)
+	  {
+	  case North:
+		  playerDstRect.y -= playerDstRect.h;
+		  break;
+	  case South:
+		  playerDstRect.y += playerDstRect.h;
+		  break;
+	  case East:
+		  playerDstRect.x += playerDstRect.w;
+		  break;
+	  case West:
+		  playerDstRect.x -= playerDstRect.w;
+		  break;
+	  }
     }
     else
     {

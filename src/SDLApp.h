@@ -11,6 +11,9 @@ protected:
 	SDL_Renderer * renderer_;
 	SDL_Texture * cover_;
 	SDL_Texture * pages_;
+	SDL_Texture * playerTexture_;
+	SDL_Rect playerSrcRect;
+	SDL_Rect playerDstRect;
 
 public:
 	SDLApp();
