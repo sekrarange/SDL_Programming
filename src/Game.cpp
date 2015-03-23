@@ -62,16 +62,6 @@ Game::~Game()
 void Game::Play()
 {	
 	Init("QuickEscape", 640, 400);
-	SDL_Surface *surface = SDL_LoadBMP("./res/splash.bmp");
-	if (surface == NULL)
-		throw runtime_error(SDL_GetError());
-
-	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer_, surface);
-	SDL_FreeSurface(surface);
-	surface = NULL;
-	SDL_RenderClear(renderer_);
-	SDL_RenderCopy(renderer_, texture, NULL, NULL);
-	SDL_RenderPresent(renderer_);
 
 	LoadMap("res/dungeon0.xml");
 	CommandUtils::Load("res/commands.xml");
@@ -99,7 +89,7 @@ void Game::Play()
 		}
 
 		HandleInput();
-		
+		Render();
 	}
 	Save("res/dungeon0.xml");
 

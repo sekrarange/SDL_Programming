@@ -157,17 +157,25 @@ CommandUtils::Parse(const SDL_Event & event)
 			return new QuitCommand();
 
 		Room *current = g_Game.GetCurrentRoom();
-		if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
+		switch (event.key.keysym.sym)
+		{
+		case SDLK_UP:
+		case SDLK_w:
 			return new MoveCommand(North, current, current->GetNextRoom(North));
-
-		if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
+			break;
+		case SDLK_DOWN:
+		case SDLK_s:
 			return new MoveCommand(South, current, current->GetNextRoom(South));
-
-		if (event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_a)
+			break;
+		case SDLK_LEFT:
+		case SDLK_a:
 			return new MoveCommand(West, current, current->GetNextRoom(West));
-
-		if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_d)
+			break;
+		case SDLK_RIGHT:
+		case SDLK_d:
 			return new MoveCommand(East, current, current->GetNextRoom(East));
+			break;
+		}
 		break;
 	}
 	return new NullCommand();
