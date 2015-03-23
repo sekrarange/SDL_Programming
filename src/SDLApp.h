@@ -9,6 +9,8 @@ class SDLApp
 protected:
 	SDL_Window * window_;
 	SDL_Renderer * renderer_;
+	SDL_Texture * cover_;
+	SDL_Texture * pages_;
 
 public:
 	SDLApp();

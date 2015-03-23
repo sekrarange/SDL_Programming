@@ -16,6 +16,8 @@ SDLApp::SDLApp()
 
 	window_ = NULL;
 	renderer_ = NULL;
+	cover_ = NULL;
+	pages_ = NULL;
 }
 SDLApp::~SDLApp()
 {
@@ -35,19 +37,14 @@ void SDLApp::Init(const string &title, int width, int height,
 	renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_SOFTWARE);
 	SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 0);
 
+	cover_ = IMG_LoadTexture(renderer_, "./res/cover.png");
+	pages_ = IMG_LoadTexture(renderer_, "./res/pages.png");
 }
 void SDLApp::Render()
 {
-	
-	SDL_Surface *surface = SDL_LoadBMP("./res/splash.bmp");
-	if (surface == NULL)
-		throw runtime_error(SDL_GetError());
-
-	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer_, surface);
-	SDL_FreeSurface(surface);
-	surface = NULL;
 	SDL_RenderClear(renderer_);
-	SDL_RenderCopy(renderer_, texture, NULL, NULL);
+	SDL_RenderCopy(renderer_, cover_, NULL, NULL);
+	SDL_RenderCopy(renderer_, pages_, NULL, NULL);
 	SDL_RenderPresent(renderer_);
 }
 
