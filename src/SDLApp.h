@@ -3,6 +3,10 @@
 #include <SDL.h>
 #include <string>
 #include <Command.h>
+#include <map>
+#include <Scene.h>
+
+class Scene;
 
 class SDLApp
 {
@@ -14,6 +18,9 @@ protected:
 	SDL_Texture * playerTexture_;
 	SDL_Rect playerSrcRect;
 	SDL_Rect playerDstRect;
+	std::map<std::string, Scene *> scenes_;
+	Scene * currentScene_;
+	Uint32 time_;
 
 public:
 	SDLApp();
@@ -22,7 +29,15 @@ public:
 	void Init(const std::string &title, int width, int height,
 		int flags = SDL_WINDOW_SHOWN);
 	void Render();
+	void Update();
 	void HandleInput();
+
+	void AddScene(Scene * scene);
+	void DeleteScene(const std::string & name);
+	void SetCurrentScene(const std::string & name);
+	Scene * GetCurrentScene();
+
+	SDL_Window	* GetWindow();
 };
 
 
