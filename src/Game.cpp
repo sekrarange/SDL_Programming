@@ -61,7 +61,7 @@ Game::~Game()
 ////////////////////////////////////////////////////////////////////////////////
 void Game::Play()
 {	
-	Init("QuickEscape", 1000, 700);
+	Init("QuickEscape", WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	LoadMap("res/dungeon0.xml");
 	CommandUtils::Load("res/commands.xml");

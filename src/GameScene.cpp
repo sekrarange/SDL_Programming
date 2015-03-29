@@ -2,6 +2,7 @@
 #include <SDL_image.h>
 #include <stdexcept>
 #include <Room.h>
+#include <SDL2_gfxPrimitives.h>
 using namespace std;
 
 GameScene::GameScene()
@@ -29,23 +30,37 @@ void GameScene::Init(SDL_Renderer * renderer)
 
 	//int windowSizeW, windowSizeH;
 	//SDL_GetWindowSize(window_, &windowSizeW, &windowSizeH);
-	playerDstRect.x = 1000 / 2 - playerSrcRect.w / 2;
-	playerDstRect.y = 700 / 2 - playerSrcRect.h / 2;
+	playerDstRect.x = WINDOW_WIDTH / 2 - playerSrcRect.w / 2;
+	playerDstRect.y = WINDOW_HEIGHT / 2 - playerSrcRect.h / 2;
 	playerDstRect.w = playerSrcRect.w * 2;
 	playerDstRect.h = playerSrcRect.h * 2;
+
+	state = fadeIn;
+	alpha = 255;
 }
 
 void GameScene::Update(float seconds)
 {
-
+	if (state == fadeIn)
+	{
+		alpha -= 1;
+		if (alpha <= 0)
+		{
+			alpha = 0;
+			state = play;
+		}
+	}
 }
 
 void GameScene::Render(SDL_Renderer * renderer)
 {
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, cover_, NULL, NULL);
 	SDL_RenderCopy(renderer, pages_, NULL, NULL);
 	SDL_RenderCopy(renderer, playerTexture_, &playerSrcRect, &playerDstRect);
+	if (state == fadeIn)
+		boxRGBA(renderer, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 255, 255, 255, (Uint8)alpha);
 }
 
 void GameScene::OnEvent(SDL_Event & ev)

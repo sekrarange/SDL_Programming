@@ -4,6 +4,8 @@
 #include <Commands.h>
 #include <Game.h>
 
+enum GameState {fadeIn, play};
+
 class GameScene : public Scene, public CommandHandler
 {
 protected:
@@ -13,6 +15,8 @@ protected:
 	SDL_Texture * playerTexture_;
 	SDL_Rect playerSrcRect;
 	SDL_Rect playerDstRect;
+	GameState state;
+	int alpha;
 public:
 	GameScene();
 	void Init(SDL_Renderer * renderer);

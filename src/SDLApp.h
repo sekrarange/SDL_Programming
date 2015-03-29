@@ -6,6 +6,8 @@
 #include <map>
 #include <Scene.h>
 
+const int WINDOW_WIDTH = 1000, WINDOW_HEIGHT = 700;
+
 class Scene;
 
 class SDLApp
