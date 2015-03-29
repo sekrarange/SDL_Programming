@@ -13,11 +13,6 @@ class SDLApp
 protected:
 	SDL_Window * window_;
 	SDL_Renderer * renderer_;
-	SDL_Texture * cover_;
-	SDL_Texture * pages_;
-	SDL_Texture * playerTexture_;
-	SDL_Rect playerSrcRect;
-	SDL_Rect playerDstRect;
 	std::map<std::string, Scene *> scenes_;
 	Scene * currentScene_;
 	Uint32 time_;

@@ -12,7 +12,6 @@
 #include <GameObject.h>
 #include <Player.h>
 #include <PropertyHolder.h>
-#include <Commands.h>
 #include <SDLApp.h>
 ////////////////////////////////////////////////////////////////////////////////
 class IRenderer;
@@ -20,7 +19,6 @@ class Room;
 typedef std::map<std::string, Room *> Rooms;
 ////////////////////////////////////////////////////////////////////////////////
 class Game : public PropertyHolder,
-	     public CommandHandler,
 		 public SDLApp
 {
 private:
@@ -47,7 +45,7 @@ public:
   Player & GetPlayer();
   Rooms &  GetRooms();
   
-  void Execute( UseCommand & cmd );
+ /* void Execute( UseCommand & cmd );
   void Execute( ExamineCommand & cmd);
   void Execute( QuitCommand & cmd);
   void Execute( MoveCommand & cmd);
@@ -56,7 +54,7 @@ public:
   void Execute( DropCommand & cmd);
   void Execute( InventoryCommand & cmd);
   void Execute( LookCommand & cmd);
-  void Execute( NullCommand & cmd);
+  void Execute( NullCommand & cmd);*/
 };
 ////////////////////////////////////////////////////////////////////////////////
 #endif
