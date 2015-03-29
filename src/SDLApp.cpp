@@ -4,6 +4,7 @@
 #include <Scene.h>
 #include <IntroScene.h>
 #include <GameScene.h>
+#include <SDL_ttf.h>
 
 using namespace std;
 
@@ -17,6 +18,8 @@ SDLApp::SDLApp()
 	{
 		throw runtime_error(IMG_GetError());
 	}
+	if (TTF_Init() < 0)
+		throw runtime_error(TTF_GetError());
 
 	window_ = NULL;
 	renderer_ = NULL;
@@ -24,8 +27,11 @@ SDLApp::SDLApp()
 }
 SDLApp::~SDLApp()
 {
+	DeleteScene("Game");
+	DeleteScene("Intro");
 	SDL_DestroyRenderer(renderer_);
 	SDL_DestroyWindow(window_);
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }

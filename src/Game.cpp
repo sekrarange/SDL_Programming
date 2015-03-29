@@ -9,6 +9,7 @@
 #include <Room.h>
 #include <RoomFactory.h>
 #include <Logger.h>
+#include <GameScene.h>
 ////////////////////////////////////////////////////////////////////////////////
 using namespace std;
 using namespace tinyxml2;
@@ -75,7 +76,7 @@ void Game::Play()
 		}
 	}
 
-	cout << m_Story << "\n";
+	*GameScene::GetCurrentPage() << m_Story << "\n";
 
 	while (GetProperty("running"))
 	{

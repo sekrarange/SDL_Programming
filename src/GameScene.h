@@ -3,6 +3,7 @@
 #include <Scene.h>
 #include <Commands.h>
 #include <Game.h>
+#include <Page.h>
 
 enum GameState {fadeIn, play};
 
@@ -13,16 +14,23 @@ protected:
 	SDL_Texture * cover_;
 	SDL_Texture * pages_;
 	SDL_Texture * playerTexture_;
+	TTF_Font * font_;
 	SDL_Rect playerSrcRect;
 	SDL_Rect playerDstRect;
+	static Page Page_;
+	SDL_Rect PageRect;
 	GameState state;
 	int alpha;
+	void LoadFont(const std::string &filename);
+
 public:
 	GameScene();
+	virtual ~GameScene();
 	void Init(SDL_Renderer * renderer);
 	void Update(float seconds);
 	void Render(SDL_Renderer * renderer);
 	void OnEvent(SDL_Event & ev);
+	static Page * GetCurrentPage();
 
 	void Execute(UseCommand & cmd);
 	void Execute(ExamineCommand & cmd);

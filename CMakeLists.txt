@@ -61,6 +61,8 @@ set( PROJECT_SRC
   src/IntroScene.cpp
   src/GameScene.h
   src/GameScene.cpp
+  src/Page.h
+  src/Page.cpp
 )
 
 find_package(TinyXML2 REQUIRED)
