@@ -10,7 +10,8 @@ void IntroScene::Init(SDL_Renderer * renderer)
 }
 void IntroScene::Update(float seconds)
 {
-
+	if (SDL_GetTicks() >= 2000)
+		Game::GetInstance()->SetCurrentScene("Game");
 }
 void IntroScene::Render(SDL_Renderer * renderer)
 {

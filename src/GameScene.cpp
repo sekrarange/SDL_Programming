@@ -1,6 +1,8 @@
 #include <GameScene.h>
 #include <SDL_image.h>
 #include <stdexcept>
+#include <Command.h>
+#include <Game.h>
 using namespace std;
 
 void GameScene::Init(SDL_Renderer * renderer)
@@ -32,10 +34,15 @@ void GameScene::Update(float seconds)
 
 void GameScene::Render(SDL_Renderer * renderer)
 {
-
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, cover_, NULL, NULL);
+	SDL_RenderCopy(renderer, pages_, NULL, NULL);
+	SDL_RenderCopy(renderer, playerTexture_, &playerSrcRect, &playerDstRect);
 }
 
 void GameScene::OnEvent(SDL_Event & ev)
 {
-
+	Command *pCmd = CommandUtils::Parse(ev);
+	pCmd->Execute(*Game::GetInstance());
+	delete pCmd;
 }

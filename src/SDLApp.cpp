@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 #include <Scene.h>
 #include <IntroScene.h>
+#include <GameScene.h>
 
 using namespace std;
 
@@ -39,29 +40,29 @@ void SDLApp::Init(const string &title, int width, int height,
 	if (window_ == NULL)
 		throw runtime_error(SDL_GetError());
 
-	renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_SOFTWARE);
+	renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 	if (renderer_ == NULL)
 		throw runtime_error(SDL_GetError());
 	SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 0);
 
-	cover_ = IMG_LoadTexture(renderer_, "./res/cover.png");
-	if (cover_ == NULL) throw runtime_error(SDL_GetError());
-	pages_ = IMG_LoadTexture(renderer_, "./res/pages.png");
-	if (pages_ == NULL) throw runtime_error(SDL_GetError());
-	playerTexture_ = IMG_LoadTexture(renderer_, "./res/Player0.png");
-	if (playerTexture_ == NULL) throw runtime_error(SDL_GetError());
+	//cover_ = IMG_LoadTexture(renderer_, "./res/cover.png");
+	//if (cover_ == NULL) throw runtime_error(SDL_GetError());
+	//pages_ = IMG_LoadTexture(renderer_, "./res/pages.png");
+	//if (pages_ == NULL) throw runtime_error(SDL_GetError());
+	//playerTexture_ = IMG_LoadTexture(renderer_, "./res/Player0.png");
+	//if (playerTexture_ == NULL) throw runtime_error(SDL_GetError());
 
-	playerSrcRect.x = 1;
-	playerSrcRect.y = 1;
-	playerSrcRect.w = 14;
-	playerSrcRect.h = 16;
+	//playerSrcRect.x = 1;
+	//playerSrcRect.y = 1;
+	//playerSrcRect.w = 14;
+	//playerSrcRect.h = 16;
 
-	int windowSizeW, windowSizeH;
-	SDL_GetWindowSize(window_, &windowSizeW, &windowSizeH);
-	playerDstRect.x = windowSizeW / 2 - playerSrcRect.w / 2;
-	playerDstRect.y = windowSizeH / 2 - playerSrcRect.h / 2;
-	playerDstRect.w = playerSrcRect.w * 2;
-	playerDstRect.h = playerSrcRect.h * 2;
+	//int windowSizeW, windowSizeH;
+	//SDL_GetWindowSize(window_, &windowSizeW, &windowSizeH);
+	//playerDstRect.x = windowSizeW / 2 - playerSrcRect.w / 2;
+	//playerDstRect.y = windowSizeH / 2 - playerSrcRect.h / 2;
+	//playerDstRect.w = playerSrcRect.w * 2;
+	//playerDstRect.h = playerSrcRect.h * 2;
 
 	time_ = SDL_GetTicks();
 
@@ -69,6 +70,10 @@ void SDLApp::Init(const string &title, int width, int height,
 	intro->Init(renderer_);
 	intro->SetName("Intro");
 	AddScene(intro);
+	GameScene * gameScene = new GameScene();
+	gameScene->Init(renderer_);
+	gameScene->SetName("Game");
+	AddScene(gameScene);
 	SetCurrentScene("Intro");
 }
 void SDLApp::Render()
@@ -92,9 +97,9 @@ void SDLApp::HandleInput()
 		case SDL_KEYDOWN:
 			currentScene_->OnEvent(ev);
 
-			Command *pCmd = CommandUtils::Parse(ev);
+		/*	Command *pCmd = CommandUtils::Parse(ev);
 			pCmd->Execute(*Game::GetInstance());
-			delete pCmd;
+			delete pCmd;*/
 			break;
 		}
 	}

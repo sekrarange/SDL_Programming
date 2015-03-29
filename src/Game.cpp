@@ -89,6 +89,7 @@ void Game::Play()
 		}
 
 		HandleInput();
+		Update();
 		Render();
 	}
 	Save("res/dungeon0.xml");
