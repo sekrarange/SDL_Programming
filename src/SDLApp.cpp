@@ -59,10 +59,13 @@ void SDLApp::Init(const string &title, int width, int height,
 	gameScene->SetName("Game");
 	AddScene(gameScene);
 	SetCurrentScene("Intro");
+	SDL_initFramerate(&fpsManager);
+	SDL_setFramerate(&fpsManager, 30);
 }
 void SDLApp::Render()
 {
 	if (currentScene_) currentScene_->Render(renderer_);
+	SDL_framerateDelay(&fpsManager);
 	SDL_RenderPresent(renderer_);
 }
 

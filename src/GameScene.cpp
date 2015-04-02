@@ -85,7 +85,7 @@ void GameScene::Update(float seconds)
 {
 	if (state == fadeIn)
 	{
-		alpha -= 1;
+		alpha -= 120 * seconds;
 		if (alpha <= 0)
 		{
 			alpha = 0;

@@ -19,7 +19,7 @@ void IntroScene::Update(float seconds)
 		state = fading;
 	if (state == fading)
 	{
-		alpha += 1;
+		alpha += 120 * seconds;
 		if (alpha >= 255)
 		{
 			state = end;

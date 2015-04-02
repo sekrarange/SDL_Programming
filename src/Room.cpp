@@ -79,17 +79,20 @@ Room::Load( XMLDocument & doc, const string & id)
 }
 ////////////////////////////////////////////////////////////////////////////////
 void
-Room::Load(tinyxml2::XMLElement & elem ) 
+Room::Load(tinyxml2::XMLElement & elem)
 {
-  GameObject::Load(elem);
-  XMLElement *overview = elem.FirstChildElement("Overview");
-  if ( overview ) 
-  {
-    const char *text = overview->GetText();
-    if ( text ) SetEnterMessage( text );
-    else g_Log << "Overview defined, but empty\n";
-  }
-  else g_Log << "No Overview message defined...";
+	GameObject::Load(elem);
+	const char * attrib = elem.Attribute("class");
+	if (attrib) SetClassHint(attrib);
+
+	XMLElement *overview = elem.FirstChildElement("Overview");
+	if (overview)
+	{
+		const char *text = overview->GetText();
+		if (text) SetEnterMessage(text);
+		else g_Log << "Overview defined, but empty\n";
+	}
+	else g_Log << "No Overview message defined...";
 }
 ////////////////////////////////////////////////////////////////////////////////
 void

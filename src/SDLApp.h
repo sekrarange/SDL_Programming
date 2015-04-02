@@ -5,6 +5,7 @@
 #include <Command.h>
 #include <map>
 #include <Scene.h>
+#include <SDL2_framerate.h>
 
 const int WINDOW_WIDTH = 1000, WINDOW_HEIGHT = 700;
 
@@ -18,6 +19,7 @@ protected:
 	std::map<std::string, Scene *> scenes_;
 	Scene * currentScene_;
 	Uint32 time_;
+	FPSmanager fpsManager;
 
 public:
 	SDLApp();
