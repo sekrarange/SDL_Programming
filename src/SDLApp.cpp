@@ -5,6 +5,7 @@
 #include <IntroScene.h>
 #include <GameScene.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 using namespace std;
 
@@ -21,6 +22,18 @@ SDLApp::SDLApp()
 	if (TTF_Init() < 0)
 		throw runtime_error(TTF_GetError());
 
+	initFlags = MIX_INIT_MP3;
+	retFlags = Mix_Init(initFlags);
+	if (initFlags != retFlags)
+		throw runtime_error(Mix_GetError());
+
+	int audio_freq = MIX_DEFAULT_FREQUENCY;
+	Uint16 audio_format = AUDIO_S16SYS;
+	int audio_channels = 1;
+	int audio_buffers = 1024;
+	if (Mix_OpenAudio(audio_freq, audio_format, audio_channels, audio_buffers))
+		throw runtime_error(Mix_GetError());
+
 	window_ = NULL;
 	renderer_ = NULL;
 	currentScene_ = NULL;
@@ -31,6 +44,9 @@ SDLApp::~SDLApp()
 	DeleteScene("Intro");
 	SDL_DestroyRenderer(renderer_);
 	SDL_DestroyWindow(window_);
+
+	Mix_CloseAudio();
+	Mix_Quit();
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
