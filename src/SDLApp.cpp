@@ -5,7 +5,6 @@
 #include <IntroScene.h>
 #include <GameScene.h>
 #include <SDL_ttf.h>
-#include <SDL_mixer.h>
 
 using namespace std;
 

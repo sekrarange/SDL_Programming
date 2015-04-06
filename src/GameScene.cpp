@@ -4,6 +4,8 @@
 #include <Room.h>
 #include <SDL2_gfxPrimitives.h>
 #include <tinyxml2.h>
+#include <SDL_mixer.h>
+#define current_room (*(Game::GetInstance()->GetCurrentRoom()))
 
 using namespace std;
 using namespace tinyxml2;
@@ -17,9 +19,19 @@ GameScene::GameScene()
 	pages_ = NULL;
 	playerTexture_ = NULL;
 	font_ = NULL;
+	bgMusic = NULL;
+	stepSound = NULL;
+	wallSound = NULL;
+	screamSound = NULL;
+	squishSound = NULL;
 }
 GameScene::~GameScene()
 {
+	Mix_FreeChunk(squishSound);
+	Mix_FreeChunk(screamSound);
+	Mix_FreeChunk(wallSound);
+	Mix_FreeChunk(stepSound);
+	Mix_FreeMusic(bgMusic);
 	TTF_CloseFont(font_);
 }
 
@@ -55,6 +67,26 @@ void GameScene::Init(SDL_Renderer * renderer)
 
 	state = fadeIn;
 	alpha = 255;
+
+	bgMusic = Mix_LoadMUS("res/sound/Southern Pastures - I. Homestead.mp3");
+	if (bgMusic == NULL)
+		throw runtime_error(Mix_GetError());
+
+	stepSound = Mix_LoadWAV("res/sound/stepstone_1.wav");
+	if (stepSound == NULL)
+		throw runtime_error(Mix_GetError());
+
+	wallSound = Mix_LoadWAV("res/sound/Jump 3.wav");
+	if (wallSound == NULL)
+		throw runtime_error(Mix_GetError());
+
+	screamSound = Mix_LoadWAV("res/sound/3yell5.wav");
+	if (screamSound == NULL)
+		throw runtime_error(Mix_GetError());
+
+	squishSound = Mix_LoadWAV("res/sound/squish.wav");
+	if (squishSound == NULL)
+		throw runtime_error(Mix_GetError());
 }
 
 void GameScene::LoadFont(const std::string & filename)
@@ -91,6 +123,9 @@ void GameScene::Update(float seconds)
 			alpha = 0;
 			state = play;
 		}
+		if (!Mix_PlayingMusic())
+			if (Mix_FadeInMusic(bgMusic, -1, 5000) == -1)
+				throw runtime_error(Mix_GetError());
 	}
 	Page_.Compose(font_);
 }
@@ -106,6 +141,14 @@ void GameScene::Render(SDL_Renderer * renderer)
 	SDL_RenderCopy(renderer, Page_._pageTexture, NULL, &PageRect);
 	if (state == fadeIn)
 		boxRGBA(renderer, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 255, 255, 255, (Uint8)alpha);
+}
+
+void GameScene::PlayDeathSound()
+{
+	int chan;
+	chan = Mix_PlayChannel(-1, screamSound, 0);
+	while (Mix_Playing(chan));
+	Mix_PlayChannel(-1, squishSound, 0);
 }
 
 void GameScene::OnEvent(SDL_Event & ev)
@@ -124,6 +167,7 @@ void
 GameScene::Execute(QuitCommand & cmd)
 {
 	gameInstance->SetProperty("running", false);
+	Mix_FadeOutMusic(2000);
 }
 ////////////////////////////////////////////////////////////////////////////////
 void
@@ -158,10 +202,17 @@ GameScene::Execute(MoveCommand & cmd)
 				playerDstRect.x -= playerDstRect.w;
 				break;
 			}
+			Mix_PlayChannel(-1, stepSound, 0);
+			if (current_room.HasProperty("deadly") && current_room.GetProperty("deadly").As<bool>())
+			{
+				PlayDeathSound();
+				Mix_FadeOutMusic(2000);
+			}
 		}
 		else
 		{
 			Page_ << "You bump your head on the wall. You can't go that way.\n";
+			Mix_PlayChannel(-1, wallSound, 0);
 		}
 	}
 }

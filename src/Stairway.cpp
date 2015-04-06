@@ -3,6 +3,8 @@
 #include <Stairway.h>
 #include <Game.h>
 #include <iostream>
+#include <GameScene.h>
+#define CurrentPage *(GameScene::GetCurrentPage())
 ////////////////////////////////////////////////////////////////////////////////
 #define g_Game (*Game::GetInstance())
 using namespace std;
@@ -15,7 +17,7 @@ Stairway::Execute( MoveCommand & cmd )
        g_Game.GetPlayer().GetItems()["torch"] == NULL )
   {
     // Report death message attached to room
-    cout << GetProperty("deathmessage").As<string>() <<  "\n";
+    CurrentPage << GetProperty("deathmessage").As<string>() <<  "\n";
     g_Game.SetProperty("running", false);
   }
   else

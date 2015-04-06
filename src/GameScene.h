@@ -4,6 +4,7 @@
 #include <Commands.h>
 #include <Game.h>
 #include <Page.h>
+#include <SDL_mixer.h>
 
 enum GameState {fadeIn, play};
 
@@ -22,6 +23,10 @@ protected:
 	GameState state;
 	int alpha;
 	void LoadFont(const std::string &filename);
+	Mix_Music * bgMusic;
+	Mix_Chunk * stepSound;
+	Mix_Chunk * wallSound;
+	Mix_Chunk * screamSound;
 
 public:
 	GameScene();
@@ -31,6 +36,8 @@ public:
 	void Render(SDL_Renderer * renderer);
 	void OnEvent(SDL_Event & ev);
 	static Page * GetCurrentPage();
+	void PlayDeathSound();
+	Mix_Chunk * squishSound;
 
 	void Execute(UseCommand & cmd);
 	void Execute(ExamineCommand & cmd);

@@ -146,7 +146,7 @@ Room::Execute(MoveCommand & cmd)
     {
       // Report death message attached to room
       CurrentPage << GetProperty("deathmessage").As<string>() <<  "\n";
-      g_Game.SetProperty("running", false);
+	  g_Game.SetProperty("running", false);
     }
     else 
     {
