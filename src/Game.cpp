@@ -95,7 +95,7 @@ void Game::Play()
 	}
 	Save("res/dungeon0.xml");
 	// sort of a hack to wait for music and sound to finish playing
-	while (Mix_PlayingMusic());
+	while (Mix_PlayingMusic() || Mix_Playing(-1));
 
 }
 ////////////////////////////////////////////////////////////////////////////////
