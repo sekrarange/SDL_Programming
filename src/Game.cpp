@@ -77,6 +77,7 @@ void Game::Play()
 	}
 
 	*GameScene::GetCurrentPage() << m_Story << "\n";
+	GameScene::GetCurrentPage()->SetDirty(true);
 
 	while (GetProperty("running"))
 	{

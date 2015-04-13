@@ -153,9 +153,6 @@ CommandUtils::Parse(const SDL_Event & event)
 		return new QuitCommand();
 		break;
 	case SDL_KEYDOWN:
-		if (event.key.keysym.sym == SDLK_ESCAPE)
-			return new QuitCommand();
-
 		Room *current = g_Game.GetCurrentRoom();
 		switch (event.key.keysym.sym)
 		{
